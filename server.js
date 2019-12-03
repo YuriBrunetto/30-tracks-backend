@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 let express = require('express')
 let request = require('request')
 let querystring = require('querystring')
@@ -40,7 +42,7 @@ app.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
-    let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
+    let uri = process.env.FRONTEND_URI || 'http://localhost:3000/tracks'
     res.redirect(uri + '?access_token=' + access_token)
   })
 })
