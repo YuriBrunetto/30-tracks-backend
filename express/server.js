@@ -1,15 +1,19 @@
 require('dotenv').config()
 
-let serverless = require('serverless-http')
-let express = require('express')
-let request = require('request')
-let querystring = require('querystring')
+const serverless = require('serverless-http')
+const path = require('path')
+const express = require('express')
+const request = require('request')
+const querystring = require('querystring')
+const bodyParser = require('body-parser')
 
-let app = express()
+const app = express()
+
+const router = express.Router()
 
 let redirect_uri = process.env.REDIRECT_URI || 'http://localhost:8888/callback'
 
-app.get('/login', function(req, res) {
+router.get('/login', function(req, res) {
   res.redirect(
     'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -21,7 +25,7 @@ app.get('/login', function(req, res) {
   )
 })
 
-app.get('/callback', function(req, res) {
+router.get('/callback', function(req, res) {
   let code = req.query.code || null
   let authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -47,6 +51,10 @@ app.get('/callback', function(req, res) {
     res.redirect(uri + '?access_token=' + access_token)
   })
 })
+
+app.use(bodyParser.json())
+app.use('/.netlify/functions/server', router) // path must route to lambda
+app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')))
 
 module.exports = app
 module.exports.handler = serverless(app)
