@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+let serverless = require('serverless-http')
 let express = require('express')
 let request = require('request')
 let querystring = require('querystring')
@@ -47,8 +48,5 @@ app.get('/callback', function(req, res) {
   })
 })
 
-let port = process.env.PORT || 8888
-console.log(
-  `Listening on port ${port}. Go /login to initiate authentication flow.`
-)
-app.listen(port)
+module.exports = app
+module.exports.handler = serverless(app)
