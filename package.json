@@ -1,20 +1,13 @@
 {
-  "name": "oauth-bridge-template",
+  "name": "30-tracks-backend",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "build": "netlify-lambda build express",
-    "start": "nodemon server-local.js"
+    "start": "node server.js"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
+  "dependencies": {
     "express": "^4.15.4",
-    "netlify-lambda": "^1.6.3",
-    "nodemon": "^2.0.1",
     "querystring": "^0.2.0",
-    "request": "^2.81.0",
-    "serverless-http": "^2.3.0"
+    "request": "^2.81.0"
   }
 }
